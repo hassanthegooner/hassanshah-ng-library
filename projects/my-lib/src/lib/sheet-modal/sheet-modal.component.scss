@@ -1,0 +1,130 @@
+:host {
+  display: block;
+}
+
+$z-index: 12500;
+
+.sheet-modal {
+  box-sizing: border-box;
+  top: 100%;
+  left: 0;
+  bottom: auto;
+  width: 100%;
+  height: auto;
+  min-height: 48px;
+  max-height: calc(100% - 24px);
+  z-index: $z-index;
+  background: #ffffff;
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.08);
+  border-radius: 8px 8px 0 0;
+  position: fixed;
+  display: flex;
+  transition-property: transform;
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
+
+  &.is-expanding {
+    height: 160%;
+    max-height: none;
+  }
+
+  .sheet-modal-inner {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: inherit;
+  }
+
+  .swipe-handler {
+    height: 16px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0;
+    cursor: pointer;
+    z-index: 10;
+
+    &:after {
+      content: '';
+      width: 36px;
+      height: 6px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -18px;
+      margin-top: -3px;
+      border-radius: 3px;
+      background: rgb(165, 165, 165);
+    }
+  }
+}
+
+:host ::ng-deep .sheet-modal {
+  .sheet-modal-swipe-step {
+    flex: 0 1 auto;
+  }
+
+  .sheet-modal-extra-content {
+    overflow-y: hidden;
+    flex: 1 1 auto;
+  }
+
+  &.is-expanded {
+    .sheet-modal-extra-content {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .sheet-modal-swipe-step.show-border-bottom {
+      border-bottom: 1px solid #ddd;
+    }
+  }
+
+  &.is-shrunk {
+    .sheet-modal-swipe-step {
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
+}
+
+// .sheet-backdrop {
+//   position: fixed;
+//   left: 0;
+//   top: 0;
+//   width: 100%;
+//   height: 100%;
+//   background: rgba(0,0,0,.4);
+//   z-index: 11000;
+//   display: none;
+//   opacity: 0;
+//   transition-duration: .4s;
+//   &.is-enabled {
+//     display: block;
+//     opacity: 1;
+//   }
+// }
+.sheet-backdrop {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .4);
+  z-index: $z-index;
+  visibility: hidden;
+  display: none;
+  opacity: 0;
+  transition-duration: .3s;
+  overflow: hidden;
+
+  &.is-enabled {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+  }
+}

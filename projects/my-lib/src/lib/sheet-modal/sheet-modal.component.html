@@ -1,0 +1,8 @@
+<div class="sheet-backdrop" [ngClass]="{'is-enabled': isSheetExpanded() && !isMoved}" [ngStyle]="backdropStyle.opacity && isMoved ? backdropStyle : null"></div>
+<div class="sheet-modal" [class.is-expanded]="isSheetExpanded()" [class.is-shrunk]="isSheetShrunk()" [ngClass]="sheetModalClass" (touchstart)="onTouchStart($event)"
+  (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd($event)" #sheetModal>
+  <div class="sheet-modal-inner">
+    <div class="swipe-handler"></div>
+    <ng-content></ng-content>
+  </div>
+</div>
