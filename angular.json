@@ -7,7 +7,7 @@
       "projectType": "library",
       "root": "projects/my-lib",
       "sourceRoot": "projects/my-lib/src",
-      "prefix": "lib",
+      "prefix": "hs",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",

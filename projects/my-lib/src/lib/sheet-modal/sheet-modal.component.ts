@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, Renderer2, ViewChild, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, ElementRef, EventEmitter, Inject, OnInit, Output, Renderer2, ViewChild  } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Subscription, fromEvent } from 'rxjs';
 
 @Component({
-  selector: 'app-sheet-modal',
+  selector: 'hs-sheet-modal',
   templateUrl: './sheet-modal.component.html',
   styleUrls: ['./sheet-modal.component.scss']
 })
@@ -16,6 +16,9 @@ export class SheetModalComponent implements OnInit, AfterViewInit {
   @Input() bounceAnimation = true;
   @Input() backdrop = true;
   @Input() sheetModalClass: string;
+
+  @Output() expanded = new EventEmitter();
+  @Output() shrunk = new EventEmitter();
 
   isTouched = false;
   startTouch;
@@ -142,7 +145,9 @@ export class SheetModalComponent implements OnInit, AfterViewInit {
 
     const openDirection = 'to-top';
     const closeDirection = 'to-bottom';
-
+    /**
+     * If swiped quickly
+     */
     if (timeDiff < 300 && diff > 10) {
       if (direction === openDirection) {
         this.expandToTop();
@@ -153,7 +158,9 @@ export class SheetModalComponent implements OnInit, AfterViewInit {
       }
       return;
     }
-
+    /**
+     * If dragging slowly
+     */
     if (timeDiff >= 300) {
       const expandPoint = -Math.round(this.sheetElOffsetHeight * 0.33);
       if (this.currentTranslate <= expandPoint) {
@@ -192,6 +199,7 @@ export class SheetModalComponent implements OnInit, AfterViewInit {
       this.setTranslateY(this.maxTranslate + 'px');
     }
     this.setBackdropOpacity(1);
+    this.expanded.emit();
   }
 
   shrink() {
@@ -200,6 +208,7 @@ export class SheetModalComponent implements OnInit, AfterViewInit {
     this.setTranslateY(this.minTranslate + 'px');
     this.setBackdropOpacity(0.02);
     this.setBackdropOpacity(0);
+    this.shrunk.emit();
   }
 
   getTranslateY() {
