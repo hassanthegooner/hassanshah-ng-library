@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, ElementRef, EventEmitter, Inject, OnInit, Output, Renderer2, ViewChild  } from '@angular/core';
+import { AfterViewInit, Component, Input, ElementRef, EventEmitter, Inject, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Subscription, fromEvent } from 'rxjs';
 
@@ -58,13 +58,15 @@ export class SheetModalComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const swipeStepEl = this.getSwipeStepElement();
-    const initialTranslate = Math.min(-(swipeStepEl.clientHeight || swipeStepEl.offsetHeight), this._minTranslate);
-    this._minTranslate = initialTranslate;
-    this.minTranslate = initialTranslate;
-    this.currentTranslate = initialTranslate;
-    this.setTranslateY(initialTranslate);
-    if (this.showBorderOnScoll) {
-      this.setScrollListener();
+    if (swipeStepEl) {
+      const initialTranslate = Math.min(-(swipeStepEl.clientHeight || swipeStepEl.offsetHeight), this._minTranslate);
+      this._minTranslate = initialTranslate;
+      this.minTranslate = initialTranslate;
+      this.currentTranslate = initialTranslate;
+      this.setTranslateY(initialTranslate);
+      if (this.showBorderOnScoll) {
+        this.setScrollListener();
+      }
     }
   }
 
